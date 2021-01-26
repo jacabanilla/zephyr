@@ -13,6 +13,10 @@
 		783EABAE25B3E6140018EF97 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 783EABAD25B3E6140018EF97 /* Preview Assets.xcassets */; };
 		783EABB925B3E6140018EF97 /* zephyrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783EABB825B3E6140018EF97 /* zephyrTests.swift */; };
 		783EABC425B3E6140018EF97 /* zephyrUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783EABC325B3E6140018EF97 /* zephyrUITests.swift */; };
+		783EABE925BFC9510018EF97 /* NetworkStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783EABE825BFC9500018EF97 /* NetworkStream.swift */; };
+		783EABF425BFCA170018EF97 /* RingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783EABF325BFCA170018EF97 /* RingView.swift */; };
+		783EABFC25BFCD390018EF97 /* ControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783EABFB25BFCD390018EF97 /* ControlView.swift */; };
+		783EAC0425BFCD8C0018EF97 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783EAC0325BFCD8C0018EF97 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +50,10 @@
 		783EABC325B3E6140018EF97 /* zephyrUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = zephyrUITests.swift; sourceTree = "<group>"; };
 		783EABC525B3E6140018EF97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		783EABD525B559EB0018EF97 /* libquic.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libquic.tbd; path = usr/lib/libquic.tbd; sourceTree = SDKROOT; };
+		783EABE825BFC9500018EF97 /* NetworkStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkStream.swift; sourceTree = "<group>"; };
+		783EABF325BFCA170018EF97 /* RingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingView.swift; sourceTree = "<group>"; };
+		783EABFB25BFCD390018EF97 /* ControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlView.swift; sourceTree = "<group>"; };
+		783EAC0325BFCD8C0018EF97 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,9 +107,13 @@
 			children = (
 				783EABA625B3E6110018EF97 /* zephyrApp.swift */,
 				783EABA825B3E6110018EF97 /* ContentView.swift */,
+				783EABFB25BFCD390018EF97 /* ControlView.swift */,
+				783EABE825BFC9500018EF97 /* NetworkStream.swift */,
+				783EABF325BFCA170018EF97 /* RingView.swift */,
 				783EABAA25B3E6140018EF97 /* Assets.xcassets */,
 				783EABAF25B3E6140018EF97 /* Info.plist */,
 				783EABAC25B3E6140018EF97 /* Preview Content */,
+				783EAC0325BFCD8C0018EF97 /* SettingsView.swift */,
 			);
 			path = zephyr;
 			sourceTree = "<group>";
@@ -269,8 +281,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				783EABF425BFCA170018EF97 /* RingView.swift in Sources */,
 				783EABA925B3E6110018EF97 /* ContentView.swift in Sources */,
+				783EAC0425BFCD8C0018EF97 /* SettingsView.swift in Sources */,
 				783EABA725B3E6110018EF97 /* zephyrApp.swift in Sources */,
+				783EABE925BFC9510018EF97 /* NetworkStream.swift in Sources */,
+				783EABFC25BFCD390018EF97 /* ControlView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
