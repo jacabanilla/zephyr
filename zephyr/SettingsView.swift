@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct SettingsView: View {
     
     @State var network = NetworkStream()
@@ -40,6 +41,9 @@ struct SettingsView: View {
         }
     }
 }
+
+
+
 struct SettingsViewView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()

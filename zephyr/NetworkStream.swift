@@ -10,7 +10,7 @@ import Foundation
 class NetworkStream :NSObject {
     public var inStream: InputStream!
     public var outStream: OutputStream!
-    let maxReadLength = 4096
+    private let maxReadLength = 4096
 
     func startNetworkComms() {
         var readStream: Unmanaged<CFReadStream>?

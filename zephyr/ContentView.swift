@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var vibrateOnRing = true
     
     var body: some View {
         TabView {

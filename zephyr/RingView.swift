@@ -40,9 +40,9 @@ struct RingView: View {
             Text("\(Int(percent) - dBoffset)dB")
                 .font(.system(size: 10 * multiplier))
                 .fontWeight(.bold)
-                .onTapGesture {
-                    self.show.toggle()
-            }
+//                .onTapGesture {
+//                    self.show.toggle()
+//                }
         }
     }
 }

@@ -110,10 +110,10 @@
 				783EABFB25BFCD390018EF97 /* ControlView.swift */,
 				783EABE825BFC9500018EF97 /* NetworkStream.swift */,
 				783EABF325BFCA170018EF97 /* RingView.swift */,
+				783EAC0325BFCD8C0018EF97 /* SettingsView.swift */,
 				783EABAA25B3E6140018EF97 /* Assets.xcassets */,
 				783EABAF25B3E6140018EF97 /* Info.plist */,
 				783EABAC25B3E6140018EF97 /* Preview Content */,
-				783EAC0325BFCD8C0018EF97 /* SettingsView.swift */,
 			);
 			path = zephyr;
 			sourceTree = "<group>";

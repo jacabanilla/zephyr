@@ -31,10 +31,9 @@ struct ControlView: View {
             HStack() {
                 Button(action: {
                     powerOn.toggle()
-                    print("Power changed")
                 }) {
                     HStack {
-                        Text("Zone")
+                        Text("Power")
                         Image(systemName: "power")
                     }
                 }
@@ -48,11 +47,10 @@ struct ControlView: View {
                 
                 Button(action: {
                     speakersLive.toggle()
-                    print("Mute Changed")
                 }) {
                     HStack {
-                        Image(systemName: "speaker")
-                        Text("Live")
+                        Image(systemName: speakersLive ? "speaker" : "speaker.slash")
+                        Text("Audio")
                     }
                 }
                 .frame(width: 100, height: 50)
@@ -60,19 +58,21 @@ struct ControlView: View {
                 .background(speakersLive ? Color.green : Color.gray)
                 .cornerRadius(15.0)
                 .padding(25)
+                .disabled(!powerOn)
             }
             
             Spacer()
-                        
-            RingView(color1: #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1), color2: #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1), width: 200, height: 200, percent: $level, show: .constant(true))
+                                    
+            RingView(color1: #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1), color2: #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1), width: 200, height: 200, percent: $level, show: $powerOn)
             
             Stepper("", value: $level, in: 1...80)
                 .labelsHidden()
                 .padding(10)
+                .disabled(!powerOn)
                 .onChange(of: level, perform: { value in
                     print("New Level \(level)")
                 })
-            
+
             Spacer()
             
             Picker("Source", selection: $sourceInput) {
@@ -80,11 +80,12 @@ struct ControlView: View {
                 Text("Media Device").tag(SourceInput.mediadevice)
                 Text("FM").tag(SourceInput.tuner)
             }
+            .pickerStyle(SegmentedPickerStyle())
+            .padding(20)
+            .disabled(!powerOn)
             .onChange(of: sourceInput, perform: { value in
                 print("\(value.rawValue)")
             })
-            .pickerStyle(SegmentedPickerStyle())
-            .padding(20)
         }
     }
 }
