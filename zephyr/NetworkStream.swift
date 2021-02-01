@@ -12,11 +12,10 @@ class NetworkStream :NSObject {
     public var outStream: OutputStream!
     private let maxReadLength = 4096
 
-    func startNetworkComms() {
+    func startNetworkComms(host: String) -> Bool {
         var readStream: Unmanaged<CFReadStream>?
         var writeStream: Unmanaged<CFWriteStream>?
 
-        let host = "192.168.198.132"
         let port = UInt32(23)
         
         CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault,
@@ -50,6 +49,8 @@ class NetworkStream :NSObject {
         }
         
         _ = (numberOfRings == numberOfRingsMax) ? false : true;
+        
+        return (inStream != nil) && (outStream != nil)
     }
 
     func stopNetworkComms() {
