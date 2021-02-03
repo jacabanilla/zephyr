@@ -20,6 +20,8 @@ enum SourceInput: String, CaseIterable, Identifiable, Equatable {
 }
 
 struct ControlView: View {
+    @Binding var isConnected: Bool
+    
     @State private var zoneID: Int = 1
     @State private var powerOn: Bool = false
     @State private var speakersLive: Bool = true
@@ -42,6 +44,7 @@ struct ControlView: View {
                 .background(powerOn ? Color.green : Color.gray)
                 .cornerRadius(15.0)
                 .padding(25)
+                .disabled(!isConnected)
 
                 Spacer()
                 
@@ -91,6 +94,6 @@ struct ControlView: View {
 }
 struct ControlView_Previews: PreviewProvider {
     static var previews: some View {
-        ControlView()
+        ControlView(isConnected: .constant(false))
     }
 }

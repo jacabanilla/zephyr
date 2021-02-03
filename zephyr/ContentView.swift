@@ -8,35 +8,36 @@
 import SwiftUI
 
 struct ContentView: View {
-    
+    @State private var isConnected: Bool = false
+
     var body: some View {
         TabView {
             
-            SettingsView()
+            SettingsView(isConnected: $isConnected)
             .tabItem {
                 Image(systemName: "gearshape")
                 Text("Settings")
             }
 
-            ControlView()
+            ControlView(isConnected: $isConnected)
             .tabItem {
                 Image(systemName: "tv.and.mediabox")
                 Text("Living")
             }
 
-            ControlView()
+            ControlView(isConnected: $isConnected)
             .tabItem {
                 Image(systemName: "laptopcomputer")
                 Text("Office")
             }
 
-            ControlView()
+            ControlView(isConnected: $isConnected)
             .tabItem {
                 Image(systemName: "bed.double")
                 Text("Master")
             }
 
-            ControlView()
+            ControlView(isConnected: $isConnected)
             .tabItem {
                 Image(systemName: "lifepreserver")
                 Text("Pool")

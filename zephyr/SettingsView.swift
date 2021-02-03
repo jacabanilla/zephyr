@@ -9,13 +9,15 @@ import SwiftUI
 
 
 struct SettingsView: View {
-    @State var standbyOn: Bool = false
-    @State var ipAddress: String = ""
-    @State var isConnected: Bool = false
-    @State var network = NetworkStream()
-    @State var avrCommand: String = ""
+    @State private var network = NetworkStream()
+
+    @State private var standbyOn: Bool = false
+    @Binding var isConnected: Bool
+
+    @State private var ipAddress: String = ""
+    @State private var avrCommand: String = ""
     
-    @State var isIPvalid: Bool = true
+    @State private var isIPvalid: Bool = true
     
     var body: some View {
         VStack {
@@ -129,6 +131,6 @@ struct SettingsView: View {
 
 struct SettingsViewView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView()
+        SettingsView(isConnected: .constant(false))
     }
 }
