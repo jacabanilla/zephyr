@@ -15,6 +15,8 @@ struct SettingsView: View {
     @State var network = NetworkStream()
     @State var avrCommand: String = ""
     
+    @State var isIPvalid: Bool = true
+    
     var body: some View {
         VStack {
             HStack () {
@@ -31,6 +33,7 @@ struct SettingsView: View {
                 .background(standbyOn ? Color.green : Color.gray)
                 .cornerRadius(15.0)
                 .padding(25)
+                .disabled(!isConnected)
 
                 Spacer()
                 
@@ -52,7 +55,6 @@ struct SettingsView: View {
                 .background(isConnected ? Color.green : Color.gray)
                 .cornerRadius(15.0)
                 .padding(25)
-                .disabled(!standbyOn)
             }
             
             Spacer()
@@ -60,16 +62,27 @@ struct SettingsView: View {
             VStack () {
                 Text("Network Address")
                 TextField("192.168.33.1", text: $ipAddress) { isEditing in
-
-                    } onCommit: {
-                        print("on commit")
+                        print("is editing: " + ipAddress)
+                }
+                onCommit: {
+                    print("on commit")
+                    
+                    isIPvalid = verifyWholeIP(test: ipAddress)
+                    if (isIPvalid) {
+                        // ip valid
+                        print( "ip valid")
+                    } else {
+                        // is invalid
+                        print( "ip invalid")
+                        
                     }
-                    .padding(.horizontal, 50)
-                    .multilineTextAlignment(.center)
-                    .disableAutocorrection(true)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .disabled(!standbyOn)
-
+                }
+                .padding(.horizontal, 50)
+                .multilineTextAlignment(.center)
+                .disableAutocorrection(true)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .foregroundColor(isIPvalid ? .black : .red)
+                .disabled(!isConnected)
             }
             
             Spacer()
@@ -93,9 +106,22 @@ struct SettingsView: View {
                     .multilineTextAlignment(.center)
                     .disableAutocorrection(true)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .disabled(!standbyOn)
+                    .disabled(!isConnected)
             }
         }
+    }
+    func verifyWhileTyping(test: String) -> Bool {
+        let pattern_1 = "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])[.]){0,3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])?$"
+        let regexText_1 = NSPredicate(format: "SELF MATCHES %@", pattern_1)
+        let result_1 = regexText_1.evaluate(with: test)
+        return result_1
+    }
+
+    func verifyWholeIP(test: String) -> Bool {
+        let pattern_2 = "(25[0-5]|2[0-4]\\d|1\\d{2}|\\d{1,2})\\.(25[0-5]|2[0-4]\\d|1\\d{2}|\\d{1,2})\\.(25[0-5]|2[0-4]\\d|1\\d{2}|\\d{1,2})\\.(25[0-5]|2[0-4]\\d|1\\d{2}|\\d{1,2})"
+        let regexText_2 = NSPredicate(format: "SELF MATCHES %@", pattern_2)
+        let result_2 = regexText_2.evaluate(with: test)
+        return result_2
     }
 }
 
