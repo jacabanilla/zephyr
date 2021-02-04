@@ -24,7 +24,7 @@ struct ControlView: View {
     
     @State private var zoneID: Int = 1
     @State private var powerOn: Bool = false
-    @State private var speakersLive: Bool = true
+    @State private var speakersLive: Bool = false
     @State private var level: CGFloat = 20.0
     @State private var sourceInput = SourceInput.mediadevice
 
@@ -41,7 +41,7 @@ struct ControlView: View {
                 }
                 .frame(width: 100, height: 50)
                 .foregroundColor(Color.white)
-                .background(powerOn ? Color.green : Color.gray)
+                .background(powerOn ? Color.onColor : Color.offColor)
                 .cornerRadius(15.0)
                 .padding(25)
                 .disabled(!isConnected)
@@ -58,7 +58,7 @@ struct ControlView: View {
                 }
                 .frame(width: 100, height: 50)
                 .foregroundColor(Color.white)
-                .background(speakersLive ? Color.green : Color.gray)
+                .background(speakersLive ? Color.onColor : Color.offColor)
                 .cornerRadius(15.0)
                 .padding(25)
                 .disabled(!powerOn)
@@ -66,7 +66,12 @@ struct ControlView: View {
             
             Spacer()
                                     
-            RingView(color1: #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1), color2: #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1), width: 200, height: 200, percent: $level, show: $powerOn)
+            RingView(color1: UIColor(Color.controlColor),
+                     color2: UIColor(Color.errorColor),
+                     width: 200,
+                     height: 200,
+                     percent: $level,
+                     show: $powerOn)
             
             Stepper("", value: $level, in: 1...80)
                 .labelsHidden()
@@ -90,6 +95,9 @@ struct ControlView: View {
                 print("\(value.rawValue)")
             })
         }
+        .padding(.all, 25)
+        .background(Color.backgroundColor)
+        .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
     }
 }
 struct ControlView_Previews: PreviewProvider {

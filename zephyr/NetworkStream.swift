@@ -63,7 +63,7 @@ class NetworkStream :NSObject {
       
         data.withUnsafeBytes {
         guard let pointer = $0.baseAddress?.assumingMemoryBound(to: UInt8.self) else {
-          print("Error joining chat")
+          print("Error connecting")
           return
         }
             

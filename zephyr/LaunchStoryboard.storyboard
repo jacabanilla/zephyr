@@ -22,7 +22,7 @@
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="j5a-Pg-qfu"/>
-                        <color key="backgroundColor" name="launchScreenBackground"/>
+                        <color key="backgroundColor" name="launchScreenColor"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jhl-dT-koL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -32,8 +32,8 @@
     </scenes>
     <resources>
         <image name="crest" width="1519" height="1362"/>
-        <namedColor name="launchScreenBackground">
-            <color red="0.0" green="0.0" blue="0.50199997425079346" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="launchScreenColor">
+            <color red="0.039215686274509803" green="0.14117647058823529" blue="0.38823529411764707" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

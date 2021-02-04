@@ -12,7 +12,6 @@ struct ContentView: View {
 
     var body: some View {
         TabView {
-            
             SettingsView(isConnected: $isConnected)
             .tabItem {
                 Image(systemName: "gearshape")

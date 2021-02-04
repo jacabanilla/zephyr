@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		780D092025CA3A2E00229681 /* LaunchStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 780D091F25CA3A2E00229681 /* LaunchStoryboard.storyboard */; };
+		780D092B25CBA71A00229681 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780D092A25CBA71A00229681 /* ColorManager.swift */; };
 		783EABA725B3E6110018EF97 /* zephyrApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783EABA625B3E6110018EF97 /* zephyrApp.swift */; };
 		783EABA925B3E6110018EF97 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783EABA825B3E6110018EF97 /* ContentView.swift */; };
 		783EABAB25B3E6140018EF97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 783EABAA25B3E6140018EF97 /* Assets.xcassets */; };
@@ -39,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		780D091F25CA3A2E00229681 /* LaunchStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchStoryboard.storyboard; sourceTree = "<group>"; };
+		780D092A25CBA71A00229681 /* ColorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
 		783EABA325B3E6110018EF97 /* zephyr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = zephyr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		783EABA625B3E6110018EF97 /* zephyrApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = zephyrApp.swift; sourceTree = "<group>"; };
 		783EABA825B3E6110018EF97 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				783EABA625B3E6110018EF97 /* zephyrApp.swift */,
+				780D092A25CBA71A00229681 /* ColorManager.swift */,
 				783EABA825B3E6110018EF97 /* ContentView.swift */,
 				783EABFB25BFCD390018EF97 /* ControlView.swift */,
 				783EABE825BFC9500018EF97 /* NetworkStream.swift */,
@@ -285,6 +288,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				780D092B25CBA71A00229681 /* ColorManager.swift in Sources */,
 				783EABF425BFCA170018EF97 /* RingView.swift in Sources */,
 				783EABA925B3E6110018EF97 /* ContentView.swift in Sources */,
 				783EAC0425BFCD8C0018EF97 /* SettingsView.swift in Sources */,
