@@ -21,8 +21,8 @@ enum SourceInput: String, CaseIterable, Identifiable, Equatable {
 
 struct ControlView: View {
     @Binding var isConnected: Bool
-    
-    @State private var zoneID: Int = 1
+    var zoneID: Int
+
     @State private var powerOn: Bool = false
     @State private var speakersLive: Bool = false
     @State private var level: CGFloat = 20.0
@@ -80,6 +80,7 @@ struct ControlView: View {
                 .onChange(of: level, perform: { value in
                     print("New Level \(level)")
                 })
+                .padding(.top, 50)
 
             Spacer()
             
@@ -89,19 +90,23 @@ struct ControlView: View {
                 Text("FM").tag(SourceInput.tuner)
             }
             .pickerStyle(SegmentedPickerStyle())
-            .padding(20)
+            .padding(25)
+            .padding(.bottom, 50)
             .disabled(!powerOn)
             .onChange(of: sourceInput, perform: { value in
                 print("\(value.rawValue)")
             })
+        }.onAppear {
+            print("hi I'm here!")
         }
         .padding(.all, 25)
         .background(Color.backgroundColor)
-        .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+        .edgesIgnoringSafeArea(.all)
     }
 }
+
 struct ControlView_Previews: PreviewProvider {
     static var previews: some View {
-        ControlView(isConnected: .constant(false))
+        ControlView(isConnected: .constant(true), zoneID: 1)
     }
 }
