@@ -60,6 +60,7 @@ struct SettingsView: View {
                 .background(isConnected ? Color.onColor : Color.offColor)
                 .cornerRadius(15.0)
                 .padding(25)
+                .disabled(!isIPvalid)
             }
             
             Spacer()
@@ -75,13 +76,6 @@ struct SettingsView: View {
                 .disabled(isConnected)
                 .onChange(of: ipAddress) { newValue in
                     isIPvalid = verifyWholeIP(test: ipAddress)
-                    if (isIPvalid) {
-                        // ip valid
-                        print( "ip valid")
-                    } else {
-                        // is invalid
-                        print( "ip invalid")
-                    }
                 }
             }
             
