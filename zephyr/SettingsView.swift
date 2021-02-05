@@ -10,6 +10,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @State private var network = NetworkStream()
+    @State private var t = Translate()
 
     @State private var standbyOn: Bool = false
     @Binding var isConnected: Bool
@@ -24,6 +25,7 @@ struct SettingsView: View {
             HStack () {
                 Button(action: {
                     standbyOn.toggle()
+                    print(t.standby(masterOn: standbyOn))
                 }) {
                     HStack {
                         Text("Power")
@@ -87,13 +89,6 @@ struct SettingsView: View {
             VStack () {
                 Text("Issue Command")
                 TextField("MUON", text: $avrCommand) { isEditing in
-//                    network.sendNetwork(message: "MUON\r")
-//                    network.sendNetwork(message: "Z4OFF\r")
-//                    network.sendNetwork(message: "Z4ON\r")
-//                    Thread.sleep(forTimeInterval: 1)
-//                    network.sendNetwork(message: "Z4TUNER\r")
-//                    Thread.sleep(forTimeInterval: 1)
-//                    network.sendNetwork(message: "Z4?\r")
                     } onCommit: {
                         print("issue command")
                         network.sendNetwork(message: avrCommand + "\r")

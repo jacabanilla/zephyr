@@ -8,9 +8,9 @@
 import SwiftUI
 
 enum SourceInput: String, CaseIterable, Identifiable, Equatable {
-    case dvd
-    case mediadevice
-    case tuner
+    case dvd = "DVD"
+    case mediadevice = "TV"
+    case tuner = "TUNER"
 
     var id: String { self.rawValue }
     
@@ -22,6 +22,8 @@ enum SourceInput: String, CaseIterable, Identifiable, Equatable {
 struct ControlView: View {
     @Binding var isConnected: Bool
     var zoneID: Int
+    
+    @State private var t = Translate()
 
     @State private var powerOn: Bool = false
     @State private var speakersLive: Bool = false
@@ -33,6 +35,7 @@ struct ControlView: View {
             HStack() {
                 Button(action: {
                     powerOn.toggle()
+                    print(t.power(zoneID: zoneID, power: powerOn))
                 }) {
                     HStack {
                         Text("Power")
@@ -50,6 +53,7 @@ struct ControlView: View {
                 
                 Button(action: {
                     speakersLive.toggle()
+                    print(t.mute(zoneID: zoneID, live: speakersLive))
                 }) {
                     HStack {
                         Image(systemName: speakersLive ? "speaker" : "speaker.slash")
@@ -78,7 +82,7 @@ struct ControlView: View {
                 .padding(10)
                 .disabled(!powerOn)
                 .onChange(of: level, perform: { value in
-                    print("New Level \(level)")
+                    print(t.volume(zoneID: zoneID, level: Int(level)))
                 })
                 .padding(.top, 50)
 
@@ -87,14 +91,14 @@ struct ControlView: View {
             Picker("Source", selection: $sourceInput) {
                 Text("DVD").tag(SourceInput.dvd)
                 Text("Media Device").tag(SourceInput.mediadevice)
-                Text("FM").tag(SourceInput.tuner)
+                Text("Tuner").tag(SourceInput.tuner)
             }
             .pickerStyle(SegmentedPickerStyle())
             .padding(25)
             .padding(.bottom, 50)
             .disabled(!powerOn)
             .onChange(of: sourceInput, perform: { value in
-                print("\(value.rawValue)")
+                print(t.source(zoneID: zoneID, input: sourceInput))
             })
         }.onAppear {
             print("hi I'm here!")
