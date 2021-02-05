@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var network = NetworkStream()
     @State private var isConnected: Bool = false
 
     var body: some View {
         TabView {
-            SettingsView(isConnected: $isConnected)
+            SettingsView(network: $network, isConnected: $isConnected)
             .tabItem {
                 Image(systemName: "gearshape")
                 Text("Settings")

@@ -9,11 +9,12 @@ import SwiftUI
 
 
 struct SettingsView: View {
-    @State private var network = NetworkStream()
+    @Binding var network: NetworkStream
+    @Binding var isConnected: Bool
+
     @State private var t = Translate()
 
     @State private var standbyOn: Bool = false
-    @Binding var isConnected: Bool
 
     @State private var ipAddress: String = ""
     @State private var avrCommand: String = ""
@@ -103,7 +104,7 @@ struct SettingsView: View {
         }
         .padding(.all, 25)
         .background(Color.backgroundColor)
-        .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+        .edgesIgnoringSafeArea(.all)
     }
 
     func verifyWhileTyping(test: String) -> Bool {
@@ -125,6 +126,6 @@ struct SettingsView: View {
 
 struct SettingsViewView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(isConnected: .constant(false))
+        SettingsView(network: .constant(NetworkStream()), isConnected: .constant(false))
     }
 }
