@@ -11,6 +11,10 @@ class Translate :NSObject {
     
     private let query = "?"
     private let cr = "\r"
+    
+    func generic(event: String) -> String {
+        return event + cr
+    }
 
     func standby(masterOn: Bool? = nil) -> String {
         let command = "PW"
@@ -20,7 +24,7 @@ class Translate :NSObject {
             
             return command + code + cr
         }
-                
+        
         return command + query + cr
     }
     

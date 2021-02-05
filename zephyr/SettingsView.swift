@@ -91,8 +91,7 @@ struct SettingsView: View {
                 Text("Issue Command")
                 TextField("MUON", text: $avrCommand) { isEditing in
                     } onCommit: {
-                        print("issue command")
-                        network.sendNetwork(message: avrCommand + "\r")
+                        print("issue command: " + t.generic(event: avrCommand))
                     }
                     .padding(.horizontal, 50)
                     .padding(.bottom, 100)

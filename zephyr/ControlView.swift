@@ -20,6 +20,7 @@ enum SourceInput: String, CaseIterable, Identifiable, Equatable {
 }
 
 struct ControlView: View {
+    @Binding var network: NetworkStream
     @Binding var isConnected: Bool
     var zoneID: Int
     
@@ -111,6 +112,6 @@ struct ControlView: View {
 
 struct ControlView_Previews: PreviewProvider {
     static var previews: some View {
-        ControlView(isConnected: .constant(true), zoneID: 1)
+        ControlView(network: .constant(NetworkStream()), isConnected: .constant(true), zoneID: 1)
     }
 }

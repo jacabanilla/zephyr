@@ -19,25 +19,25 @@ struct ContentView: View {
                 Text("Settings")
             }
 
-            ControlView(isConnected: $isConnected, zoneID: 1)
+            ControlView(network: $network, isConnected: $isConnected, zoneID: 1)
             .tabItem {
                 Image(systemName: "tv.and.mediabox")
                 Text("Living")
             }
 
-            ControlView(isConnected: $isConnected, zoneID: 2)
+            ControlView(network: $network, isConnected: $isConnected, zoneID: 2)
             .tabItem {
                 Image(systemName: "laptopcomputer")
                 Text("Office")
             }
 
-            ControlView(isConnected: $isConnected, zoneID: 3)
+            ControlView(network: $network, isConnected: $isConnected, zoneID: 3)
             .tabItem {
                 Image(systemName: "bed.double")
                 Text("Master")
             }
 
-            ControlView(isConnected: $isConnected, zoneID: 4)
+            ControlView(network: $network, isConnected: $isConnected, zoneID: 4)
             .tabItem {
                 Image(systemName: "lifepreserver")
                 Text("Pool")
