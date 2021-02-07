@@ -44,9 +44,9 @@ struct SettingsView: View {
                 
                 Button(action: {
                     if (!isConnected) {
-                        isConnected = network.startNetworkComms(host: ipAddress)
+                        isConnected = network.open(host: ipAddress)
                     } else {
-                        network.stopNetworkComms()
+                        network.close()
                         isConnected.toggle()
                     }
                 }) {

@@ -10,9 +10,9 @@ import Foundation
 class NetworkStream :NSObject {
     public var inStream: InputStream!
     public var outStream: OutputStream!
-    private let maxReadLength = 4096
+    private let maxReadLength = 256
 
-    func startNetworkComms(host: String) -> Bool {
+    func open(host: String) -> Bool {
         var readStream: Unmanaged<CFReadStream>?
         var writeStream: Unmanaged<CFWriteStream>?
 
@@ -53,12 +53,12 @@ class NetworkStream :NSObject {
         return (inStream != nil) && (outStream != nil)
     }
 
-    func stopNetworkComms() {
+    func close() {
         inStream.close()
         outStream.close()
     }
 
-    func sendNetwork(message: String) {
+    func transmit(message: String) {
         let data = message.data(using: .utf8)!
       
         data.withUnsafeBytes {
@@ -71,7 +71,7 @@ class NetworkStream :NSObject {
       }
     }
 
-    private func readAvailableBytes(stream: InputStream, maxReadLength: Int) {
+    private func receive(stream: InputStream, maxReadLength: Int) {
         
         let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: maxReadLength)
         var msg = String()
@@ -98,14 +98,20 @@ extension NetworkStream: StreamDelegate {
         switch eventCode {
             case .hasBytesAvailable:
                 print("new message received")
-                readAvailableBytes(stream: aStream as! InputStream, maxReadLength: maxReadLength)
+                receive(stream: aStream as! InputStream, maxReadLength: maxReadLength)
+                
+                // return bytes for translations
+        
             case .endEncountered:
                 print("end received")
-                stopNetworkComms()
+                close()
+                
             case .errorOccurred:
                 print("error occurred")
+                
             case .hasSpaceAvailable:
                 print("has space available")
+                
             default:
                 print("some other event...")
         }
