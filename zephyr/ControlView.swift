@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 enum SourceInput: String, CaseIterable, Identifiable, Equatable {
     case dvd = "DVD"
@@ -22,8 +23,10 @@ enum SourceInput: String, CaseIterable, Identifiable, Equatable {
 struct ControlView: View {
     @Binding var network: NetworkStream
     @Binding var isConnected: Bool
-    var zoneID: Int
     
+    @State var zoneID: Int
+    @State var mySubscriber: AnyCancellable?
+        
     @State private var t = Translate()
 
     @State private var powerOn: Bool = false
@@ -102,7 +105,16 @@ struct ControlView: View {
                 print(t.source(zoneID: zoneID, input: sourceInput))
             })
         }.onAppear {
-            print("hi I'm here!")
+            // Upon this view being loaded, query of the state of AVR
+            network.transmit(message: t.power(zoneID: zoneID))
+            
+            // Primary processing method for any observed changes to msg
+            mySubscriber = network.$reply.sink(receiveValue: {reply in
+                print("got one on zone \(zoneID) " + reply)
+            })
+        }.onDisappear() {
+            mySubscriber?.cancel()
+            mySubscriber = nil
         }
         .padding(.all, 25)
         .background(Color.backgroundColor)

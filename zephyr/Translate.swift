@@ -12,10 +12,32 @@ class Translate :NSObject {
     private let query = "?"
     private let cr = "\r"
     
+    // Parsing functionality
+    func parse(reply: String) -> [(Int, Any, Any)] {
+        var listOfCommands = [(Int, Any, Any)]()
+        
+        let commands = reply.split(separator: "\r")
+        for command in commands {
+            let length = command.count
+            if length < 3 {
+                break
+            }
+            
+            let cmd: String = String(command.prefix(2))
+            let param: String = String(command.suffix(length - 2))
+            
+            listOfCommands += [(3, cmd, param == "ON")]
+        }
+        
+        return listOfCommands
+    }
+    
+    // Freeform Command
     func generic(event: String) -> String {
         return event + cr
     }
 
+    // Master Unit Specific Command
     func standby(masterOn: Bool? = nil) -> String {
         let command = "PW"
 
@@ -28,6 +50,7 @@ class Translate :NSObject {
         return command + query + cr
     }
     
+    // Zone Specific Commands
     func power(zoneID: Int, power: Bool? = nil) -> String {
         let command = (zoneID == 1) ? "ZM" : "Z" + "\(zoneID)"
 

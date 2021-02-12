@@ -6,18 +6,53 @@
 //
 
 import Foundation
+import Combine
 
-class NetworkStream :NSObject {
-    public var inStream: InputStream!
-    public var outStream: OutputStream!
+public enum  StreamEvent {
+    case openCompleted      // in, out
+    case hasBytesAvailable  // in
+    case hasSpaceAvailable  //     out
+    case errorOccurred      // in, out
+    case endEncountered     // in, out
+}
+
+class NetworkStream: NSObject, StreamDelegate {
+    @Published var reply = String()
+
+    private var inStream: InputStream!
+    private var outStream: OutputStream!
     private let maxReadLength = 256
+    
+    func stream(_ aStream: Stream, handle eventCode: Stream.Event) {
+        switch eventCode {
+            case .openCompleted:
+                print("stream opened")
+        
+            case .hasBytesAvailable:
+                print("new message received")
+                receive(stream: aStream as! InputStream, maxReadLength: maxReadLength)
 
-    func open(host: String) -> Bool {
+                // return bytes for translations
+
+            case .endEncountered:
+                print("end received")
+                close()
+
+            case .errorOccurred:
+                print("error occurred")
+
+            case .hasSpaceAvailable:
+                print("has space available")
+
+            default:
+                print("some other event...")
+        }
+    }
+
+    func open(host: String, port: UInt32) -> Bool {
         var readStream: Unmanaged<CFReadStream>?
         var writeStream: Unmanaged<CFWriteStream>?
 
-        let port = UInt32(23)
-        
         CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault,
                                            host as CFString,
                                            port,
@@ -57,8 +92,9 @@ class NetworkStream :NSObject {
         inStream.close()
         outStream.close()
     }
-
+    
     func transmit(message: String) {
+        print("network.transmit " + message)
         let data = message.data(using: .utf8)!
       
         data.withUnsafeBytes {
@@ -74,8 +110,8 @@ class NetworkStream :NSObject {
     private func receive(stream: InputStream, maxReadLength: Int) {
         
         let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: maxReadLength)
-        var msg = String()
         
+        var msg = ""
         while stream.hasBytesAvailable {
             let numberOfBytesRead = stream.read(buffer, maxLength: maxReadLength)
         
@@ -88,32 +124,9 @@ class NetworkStream :NSObject {
             let data = Data(bytes: buffer, count: numberOfBytesRead)
             msg += String(decoding: data, as: UTF8.self)
         }
-        
-        print(msg)
-    }
-}
 
-extension NetworkStream: StreamDelegate {
-    func stream(_ aStream: Stream, handle eventCode: Stream.Event) {
-        switch eventCode {
-            case .hasBytesAvailable:
-                print("new message received")
-                receive(stream: aStream as! InputStream, maxReadLength: maxReadLength)
-                
-                // return bytes for translations
-        
-            case .endEncountered:
-                print("end received")
-                close()
-                
-            case .errorOccurred:
-                print("error occurred")
-                
-            case .hasSpaceAvailable:
-                print("has space available")
-                
-            default:
-                print("some other event...")
-        }
+        // This is a small hack when using ncat followed by a clearing of the buffer
+        reply = msg.replacingOccurrences(of: "<user0> ", with: "")
+        reply = ""
     }
 }
