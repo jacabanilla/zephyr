@@ -10,36 +10,36 @@ import Combine
 
 struct ContentView: View {
     @StateObject var data: DataStore = DataStore()
-    @State private var network = NetworkStream()
+    @EnvironmentObject var network: NetworkStream
     @State var mySubscriber: AnyCancellable?
 
     var body: some View {
         TabView {
-            SettingsView(network: $network, data: data)
+            SettingsView(data: data)
             .tabItem {
                 Image(systemName: "gearshape")
                 Text("Settings")
             }
 
-            ControlView(network: $network, data: data, zoneID: 1)
+            ControlView(data: data, zoneID: 1)
             .tabItem {
                 Image(systemName: "tv.and.mediabox")
                 Text("Living")
             }
 
-            ControlView(network: $network, data: data, zoneID: 2)
+            ControlView(data: data, zoneID: 2)
             .tabItem {
                 Image(systemName: "laptopcomputer")
                 Text("Office")
             }
 
-            ControlView(network: $network, data: data, zoneID: 3)
+            ControlView(data: data, zoneID: 3)
             .tabItem {
                 Image(systemName: "bed.double")
                 Text("Master")
             }
 
-            ControlView(network: $network, data: data, zoneID: 4)
+            ControlView(data: data, zoneID: 4)
             .tabItem {
                 Image(systemName: "lifepreserver")
                 Text("Pool")

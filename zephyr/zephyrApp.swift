@@ -13,7 +13,7 @@ struct zephyrApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView().environmentObject(NetworkStream())
         }
         .onChange(of: scenePhase) { phase in
             if phase == .active {

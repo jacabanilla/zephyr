@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Combine
 
 public enum  StreamEvent {
     case openCompleted      // in, out
@@ -16,7 +15,7 @@ public enum  StreamEvent {
     case endEncountered     // in, out
 }
 
-class NetworkStream: NSObject, StreamDelegate {
+class NetworkStream: NSObject, ObservableObject, StreamDelegate {
     @Published var reply = String()
 
     private var inStream: InputStream!
@@ -61,7 +60,7 @@ class NetworkStream: NSObject, StreamDelegate {
 
         inStream = readStream!.takeRetainedValue()
         outStream = writeStream!.takeRetainedValue()
-        
+    
         inStream.delegate = self
         outStream.delegate = self
 

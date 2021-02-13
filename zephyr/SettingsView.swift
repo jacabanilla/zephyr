@@ -7,10 +7,9 @@
 
 import SwiftUI
 
-
 struct SettingsView: View {
-    @Binding var network: NetworkStream
     @ObservedObject var data: DataStore
+    @EnvironmentObject var network: NetworkStream
     
     @State private var t = Translate()
 
@@ -26,7 +25,7 @@ struct SettingsView: View {
             HStack () {
                 Button(action: {
                     standbyOn.toggle()
-                    print(t.standby(masterOn: standbyOn))
+                    t.standby(masterOn: standbyOn)
                 }) {
                     HStack {
                         Text("Power")
@@ -44,7 +43,8 @@ struct SettingsView: View {
                 
                 Button(action: {
                     if (!data.isConnected) {
-                        isConnected = network.open(host: ipAddress, port: 23)
+//                        isConnected = network.open(host: ipAddress, port: 23)
+                        data.isConnected = network.open(host: "0.0.0.0", port: 8000)
                     } else {
                         network.close()
                         data.isConnected.toggle()
@@ -85,7 +85,8 @@ struct SettingsView: View {
                 Text("Issue Command")
                 TextField("MUON", text: $avrCommand) { isEditing in
                     } onCommit: {
-                        print("issue command: " + t.generic(event: avrCommand))
+                        print("issue command: " + avrCommand)
+                        t.generic(event: avrCommand)
                     }
                     .padding(.horizontal, 50)
                     .padding(.bottom, 100)
@@ -119,6 +120,6 @@ struct SettingsView: View {
 
 struct SettingsViewView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(network: .constant(NetworkStream()), data: DataStore())
+        SettingsView(data: DataStore())
     }
 }

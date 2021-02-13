@@ -6,21 +6,19 @@
 //
 
 import SwiftUI
-import Combine
 
 struct ControlView: View {
-    @Binding var network: NetworkStream
     @ObservedObject var data: DataStore
     
     @State var zoneID: Int
-    @State private var t = Translate()
+    @State  var t = Translate()
 
     var body: some View {
         VStack () {
             HStack() {
                 Button(action: {
                     data.controls[zoneID].powerOn.toggle()
-                    print(t.power(zoneID: zoneID, power: data.controls[zoneID].powerOn))
+                    t.power(zoneID: zoneID, power: data.controls[zoneID].powerOn)
                 }) {
                     HStack {
                         Text("Power")
@@ -38,7 +36,7 @@ struct ControlView: View {
                 
                 Button(action: {
                     data.controls[zoneID].speakersLive.toggle()
-                    print(t.mute(zoneID: zoneID, live: data.controls[zoneID].speakersLive))
+                    t.mute(zoneID: zoneID, live: data.controls[zoneID].speakersLive)
                 }) {
                     HStack {
                         Image(systemName: data.controls[zoneID].speakersLive ? "speaker" : "speaker.slash")
@@ -67,7 +65,7 @@ struct ControlView: View {
                 .padding(10)
                 .disabled(!data.controls[zoneID].powerOn)
                 .onChange(of: data.controls[zoneID].level, perform: { value in
-                    print(t.volume(zoneID: zoneID, level: Int(data.controls[zoneID].level)))
+                    t.volume(zoneID: zoneID, level: Int(data.controls[zoneID].level))
                 })
                 .padding(.top, 50)
 
@@ -83,11 +81,11 @@ struct ControlView: View {
             .padding(.bottom, 50)
             .disabled(!data.controls[zoneID].powerOn)
             .onChange(of: data.controls[zoneID].sourceInput, perform: { value in
-                print(t.source(zoneID: zoneID, input: data.controls[zoneID].sourceInput))
+                t.source(zoneID: zoneID, input: data.controls[zoneID].sourceInput)
             })
         }.onAppear {
             // Upon this view being loaded, query of the state of AVR
-            network.transmit(message: t.power(zoneID: zoneID))
+            t.power(zoneID: zoneID)
         }
         .padding(.all, 25)
         .background(Color.backgroundColor)
@@ -97,6 +95,6 @@ struct ControlView: View {
 
 struct ControlView_Previews: PreviewProvider {
     static var previews: some View {
-        ControlView(network: .constant(NetworkStream()), data: DataStore(), zoneID: 1)
+        ControlView(data: DataStore(), zoneID: 1)
     }
 }
