@@ -10,16 +10,16 @@ import SwiftUI
 
 struct SettingsView: View {
     @Binding var network: NetworkStream
-    @Binding var isConnected: Bool
-
+    @ObservedObject var data: DataStore
+    
     @State private var t = Translate()
 
     @State private var standbyOn: Bool = false
 
     @State private var ipAddress: String = ""
+    @State private var isIPvalid: Bool = true
     @State private var avrCommand: String = ""
     
-    @State private var isIPvalid: Bool = true
     
     var body: some View {
         VStack {
@@ -38,26 +38,26 @@ struct SettingsView: View {
                 .background(standbyOn ? Color.onColor : Color.offColor)
                 .cornerRadius(15.0)
                 .padding(25)
-                .disabled(!isConnected)
+                .disabled(!data.isConnected)
 
                 Spacer()
                 
                 Button(action: {
-                    if (!isConnected) {
-                        isConnected = network.open(host: ipAddress)
+                    if (!data.isConnected) {
+                        isConnected = network.open(host: ipAddress, port: 23)
                     } else {
                         network.close()
-                        isConnected.toggle()
+                        data.isConnected.toggle()
                     }
                 }) {
                     HStack {
                         Text("TCP ")
-                        Image(systemName: isConnected ? "icloud.fill" : "icloud.slash.fill")
+                        Image(systemName: data.isConnected ? "icloud.fill" : "icloud.slash.fill")
                     }
                 }
                 .frame(width: 100, height: 50)
                 .foregroundColor(Color.white)
-                .background(isConnected ? Color.onColor : Color.offColor)
+                .background(data.isConnected ? Color.onColor : Color.offColor)
                 .cornerRadius(15.0)
                 .padding(25)
                 .disabled(!isIPvalid)
@@ -73,7 +73,7 @@ struct SettingsView: View {
                 .disableAutocorrection(true)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .foregroundColor(isIPvalid ? .offColor : .errorColor)
-                .disabled(isConnected)
+                .disabled(data.isConnected)
                 .onChange(of: ipAddress) { newValue in
                     isIPvalid = verifyWholeIP(test: ipAddress)
                 }
@@ -92,7 +92,7 @@ struct SettingsView: View {
                     .multilineTextAlignment(.center)
                     .disableAutocorrection(true)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .disabled(!isConnected)
+                    .disabled(!data.isConnected)
             }
         }
         .padding(.all, 25)
@@ -119,6 +119,6 @@ struct SettingsView: View {
 
 struct SettingsViewView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(network: .constant(NetworkStream()), isConnected: .constant(false))
+        SettingsView(network: .constant(NetworkStream()), data: DataStore())
     }
 }

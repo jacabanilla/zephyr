@@ -6,42 +6,50 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ContentView: View {
+    @StateObject var data: DataStore = DataStore()
     @State private var network = NetworkStream()
-    @State private var isConnected: Bool = false
+    @State var mySubscriber: AnyCancellable?
 
     var body: some View {
         TabView {
-            SettingsView(network: $network, isConnected: $isConnected)
+            SettingsView(network: $network, data: data)
             .tabItem {
                 Image(systemName: "gearshape")
                 Text("Settings")
             }
 
-            ControlView(network: $network, isConnected: $isConnected, zoneID: 1)
+            ControlView(network: $network, data: data, zoneID: 1)
             .tabItem {
                 Image(systemName: "tv.and.mediabox")
                 Text("Living")
             }
 
-            ControlView(network: $network, isConnected: $isConnected, zoneID: 2)
+            ControlView(network: $network, data: data, zoneID: 2)
             .tabItem {
                 Image(systemName: "laptopcomputer")
                 Text("Office")
             }
 
-            ControlView(network: $network, isConnected: $isConnected, zoneID: 3)
+            ControlView(network: $network, data: data, zoneID: 3)
             .tabItem {
                 Image(systemName: "bed.double")
                 Text("Master")
             }
 
-            ControlView(network: $network, isConnected: $isConnected, zoneID: 4)
+            ControlView(network: $network, data: data, zoneID: 4)
             .tabItem {
                 Image(systemName: "lifepreserver")
                 Text("Pool")
             }
+            
+        }.onAppear {
+            // Primary processing method for any observed changes to msg
+            mySubscriber = network.$reply.sink(receiveValue: {reply in
+                print("received " + reply)
+            })
         }
     }
 }
