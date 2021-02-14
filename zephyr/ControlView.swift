@@ -9,16 +9,17 @@ import SwiftUI
 
 struct ControlView: View {
     @ObservedObject var data: DataStore
-    
     @State var zoneID: Int
-    @State  var t = Translate()
+    
+    @EnvironmentObject var translate: Translate
+
 
     var body: some View {
         VStack () {
             HStack() {
                 Button(action: {
                     data.controls[zoneID].powerOn.toggle()
-                    t.power(zoneID: zoneID, power: data.controls[zoneID].powerOn)
+                    translate.power(zoneID: zoneID, power: data.controls[zoneID].powerOn)
                 }) {
                     HStack {
                         Text("Power")
@@ -36,7 +37,7 @@ struct ControlView: View {
                 
                 Button(action: {
                     data.controls[zoneID].speakersLive.toggle()
-                    t.mute(zoneID: zoneID, live: data.controls[zoneID].speakersLive)
+                    translate.mute(zoneID: zoneID, live: data.controls[zoneID].speakersLive)
                 }) {
                     HStack {
                         Image(systemName: data.controls[zoneID].speakersLive ? "speaker" : "speaker.slash")
@@ -65,7 +66,7 @@ struct ControlView: View {
                 .padding(10)
                 .disabled(!data.controls[zoneID].powerOn)
                 .onChange(of: data.controls[zoneID].level, perform: { value in
-                    t.volume(zoneID: zoneID, level: Int(data.controls[zoneID].level))
+                    translate.volume(zoneID: zoneID, level: Int(data.controls[zoneID].level))
                 })
                 .padding(.top, 50)
 
@@ -81,11 +82,11 @@ struct ControlView: View {
             .padding(.bottom, 50)
             .disabled(!data.controls[zoneID].powerOn)
             .onChange(of: data.controls[zoneID].sourceInput, perform: { value in
-                t.source(zoneID: zoneID, input: data.controls[zoneID].sourceInput)
+                translate.source(zoneID: zoneID, input: data.controls[zoneID].sourceInput)
             })
         }.onAppear {
             // Upon this view being loaded, query of the state of AVR
-            t.power(zoneID: zoneID)
+            translate.power(zoneID: zoneID)
         }
         .padding(.all, 25)
         .background(Color.backgroundColor)

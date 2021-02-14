@@ -45,9 +45,9 @@ struct ContentView: View {
                 Text("Pool")
             }
             
-        }.onAppear {
+        } .onAppear {
             // Primary processing method for any observed changes to msg
-            mySubscriber = network.$reply.sink(receiveValue: {reply in
+            mySubscriber = network.$reply.sink(receiveValue: { reply in
                 print("received " + reply)
             })
         }

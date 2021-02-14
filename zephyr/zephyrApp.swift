@@ -11,9 +11,19 @@ import SwiftUI
 struct zephyrApp: App {
     @Environment(\.scenePhase) private var scenePhase
     
+    private let network: NetworkStream
+    private let translate: Translate
+    
+    init() {
+        self.network = NetworkStream()
+        self.translate = Translate(network: network)
+    }
+    
     var body: some Scene {
         WindowGroup {
-            ContentView().environmentObject(NetworkStream())
+            ContentView()
+                .environmentObject(translate)
+                .environmentObject(network)
         }
         .onChange(of: scenePhase) { phase in
             if phase == .active {

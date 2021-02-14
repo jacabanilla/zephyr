@@ -10,8 +10,7 @@ import SwiftUI
 struct SettingsView: View {
     @ObservedObject var data: DataStore
     @EnvironmentObject var network: NetworkStream
-    
-    @State private var t = Translate()
+    @EnvironmentObject var translate: Translate
 
     @State private var standbyOn: Bool = false
 
@@ -25,7 +24,7 @@ struct SettingsView: View {
             HStack () {
                 Button(action: {
                     standbyOn.toggle()
-                    t.standby(masterOn: standbyOn)
+                    translate.standby(masterOn: standbyOn)
                 }) {
                     HStack {
                         Text("Power")
@@ -86,7 +85,7 @@ struct SettingsView: View {
                 TextField("MUON", text: $avrCommand) { isEditing in
                     } onCommit: {
                         print("issue command: " + avrCommand)
-                        t.generic(event: avrCommand)
+                        translate.generic(event: avrCommand)
                     }
                     .padding(.horizontal, 50)
                     .padding(.bottom, 100)

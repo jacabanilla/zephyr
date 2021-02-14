@@ -6,13 +6,15 @@
 //
 
 import Foundation
-import SwiftUI
 
-class Translate {
-    @EnvironmentObject var network: NetworkStream
-
+class Translate: ObservableObject {
+    var network: NetworkStream
     private let query = "?"
     private let cr = "\r"
+    
+    init(network: NetworkStream) {
+        self.network = network
+    }
     
     // Parsing functionality
 //    func parse(reply: String) -> [(Int, Any, Any)] {
