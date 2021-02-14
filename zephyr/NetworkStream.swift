@@ -93,7 +93,10 @@ class NetworkStream: NSObject, ObservableObject, StreamDelegate {
     }
     
     func transmit(message: String) {
-        print("network.transmit " + message)
+        guard (outStream != nil) else {
+            return
+        }
+        
         let data = message.data(using: .utf8)!
       
         data.withUnsafeBytes {
@@ -107,7 +110,10 @@ class NetworkStream: NSObject, ObservableObject, StreamDelegate {
     }
 
     private func receive(stream: InputStream, maxReadLength: Int) {
-        
+        guard (inStream != nil) else {
+            return
+        }
+
         let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: maxReadLength)
         
         var msg = ""
@@ -126,6 +132,5 @@ class NetworkStream: NSObject, ObservableObject, StreamDelegate {
 
         // This is a small hack when using ncat followed by a clearing of the buffer
         reply = msg.replacingOccurrences(of: "<user0> ", with: "")
-        reply = ""
     }
 }

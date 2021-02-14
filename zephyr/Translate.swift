@@ -8,15 +8,16 @@
 import Foundation
 
 class Translate: ObservableObject {
-    var network: NetworkStream
+    @Published var request = String()
+    
     private let query = "?"
     private let cr = "\r"
     
-    init(network: NetworkStream) {
-        self.network = network
-    }
-    
     // Parsing functionality
+    func parse(reply: String, data: DataStore) {
+        let value = true
+        data.controls[0].powerOn = value
+    }
 //    func parse(reply: String) -> [(Int, Any, Any)] {
 //        var listOfCommands = [(Int, Any, Any)]()
 //
@@ -60,7 +61,7 @@ class Translate: ObservableObject {
     
     // Freeform Command
     func generic(event: String) {
-        network.transmit(message: event + cr)
+        request = event + cr
     }
 
     // Master Unit Specific Command
@@ -70,58 +71,58 @@ class Translate: ObservableObject {
         if let masterOn = masterOn {
             let code = (masterOn) ? "ON" : "STANDBY"
             
-            network.transmit(message: command + code + cr)
+            request = command + code + cr
         }
         
-        network.transmit(message: command + query + cr)
+        request = command + query + cr
     }
     
     // Zone Specific Commands
     func power(zoneID: Int, power: Bool? = nil) {
-        let command = (zoneID == 1) ? "ZM" : "Z" + "\(zoneID)"
+        let command = (zoneID == 0) ? "ZM" : "Z" + "\(zoneID)"
 
         if let power = power {
             let code = (power) ? "ON" : "OFF"
             
-            network.transmit(message: command + code + cr)
+            request = command + code + cr
         }
         
-        network.transmit(message: command + query + cr)
+        request = command + query + cr
     }
 
     func mute(zoneID: Int, live: Bool? = nil) {
-        let command = (zoneID == 1) ? "" : "Z" + "\(zoneID)"
+        let command = (zoneID == 0) ? "" : "Z" + "\(zoneID)"
         
         if let live = live {
             let code = "MU" + (live ? "ON" : "OFF")
             
-            network.transmit(message: command + code + cr)
+            request = command + code + cr
         }
 
-        network.transmit(message: command + query + cr)
+        request = command + query + cr
     }
     
     func volume(zoneID: Int, level: Int? = nil) {
-        let command = (zoneID == 1) ? "MV" : "Z" + "\(zoneID)"
+        let command = (zoneID == 0) ? "MV" : "Z" + "\(zoneID)"
         
         if let level = level {
             let code = "\(level)"
             
-            network.transmit(message: command + code + cr)
+            request = command + code + cr
         }
 
-        network.transmit(message: command + query + cr)
+        request = command + query + cr
     }
     
     func source(zoneID: Int, input: SourceInput? = nil) {
-        let command = (zoneID == 1) ? "SI" : "Z" + "\(zoneID)"
+        let command = (zoneID == 0) ? "SI" : "Z" + "\(zoneID)"
         
         if let input = input {
             let code = input.rawValue
             
-            network.transmit(message: command + code + cr)
+            request = command + code + cr
         }
 
-        network.transmit(message: command + query + cr)
+        request = command + query + cr
     }
 }

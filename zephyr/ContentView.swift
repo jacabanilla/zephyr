@@ -11,7 +11,9 @@ import Combine
 struct ContentView: View {
     @StateObject var data: DataStore = DataStore()
     @EnvironmentObject var network: NetworkStream
-    @State var mySubscriber: AnyCancellable?
+    @EnvironmentObject var translate: Translate
+    @State var myTxSubscriber: AnyCancellable?
+    @State var myRxSubscriber: AnyCancellable?
 
     var body: some View {
         TabView {
@@ -21,25 +23,25 @@ struct ContentView: View {
                 Text("Settings")
             }
 
-            ControlView(data: data, zoneID: 1)
+            ControlView(data: data, zoneID: 0)
             .tabItem {
                 Image(systemName: "tv.and.mediabox")
                 Text("Living")
             }
 
-            ControlView(data: data, zoneID: 2)
+            ControlView(data: data, zoneID: 1)
             .tabItem {
                 Image(systemName: "laptopcomputer")
                 Text("Office")
             }
 
-            ControlView(data: data, zoneID: 3)
+            ControlView(data: data, zoneID: 2)
             .tabItem {
                 Image(systemName: "bed.double")
                 Text("Master")
             }
 
-            ControlView(data: data, zoneID: 4)
+            ControlView(data: data, zoneID: 3)
             .tabItem {
                 Image(systemName: "lifepreserver")
                 Text("Pool")
@@ -47,8 +49,14 @@ struct ContentView: View {
             
         } .onAppear {
             // Primary processing method for any observed changes to msg
-            mySubscriber = network.$reply.sink(receiveValue: { reply in
+            myRxSubscriber = network.$reply.sink(receiveValue: { reply in
                 print("received " + reply)
+                translate.parse(reply: reply, data: data)
+            })
+            
+            myTxSubscriber = translate.$request.sink(receiveValue: { request in
+                print("transmit " + request)
+                network.transmit(message: request)
             })
         }
     }
