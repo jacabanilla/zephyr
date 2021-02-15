@@ -21,7 +21,6 @@ struct zephyrApp: App {
             if phase == .active {
                 // Perform cleanup when all scenes within
                 // MyScene go to the background.
-                print("Yo")
             }
         }
     }

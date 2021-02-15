@@ -13,7 +13,7 @@ struct RingView: View {
     var width: CGFloat = 300
     var height: CGFloat = 300
     
-    @Binding var percent: CGFloat
+    @Binding var percent: Float
     @Binding var show: Bool
     
     var body: some View {
@@ -27,7 +27,7 @@ struct RingView: View {
                 .frame(width: width, height: height)
             
             Circle()
-                .trim(from: show ? progress : 1, to: 1)
+                .trim(from: show ? CGFloat(progress) : 1, to: 1)
                 .stroke(
                     LinearGradient(gradient: Gradient(colors: [Color(color1), Color(color2)]), startPoint: .topTrailing, endPoint: .bottomLeading),
                     style: StrokeStyle(lineWidth: 5 * multiplier, lineCap: .round, lineJoin: .round, miterLimit: .infinity, dash: [20, 0], dashPhase: 0)

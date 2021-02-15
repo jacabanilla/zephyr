@@ -66,6 +66,7 @@ struct ControlView: View {
                 .padding(10)
                 .disabled(!data.controls[zoneID].powerOn)
                 .onChange(of: data.controls[zoneID].level, perform: { value in
+                    print("volume is: \(value)" )
                     translate.volume(zoneID: zoneID, level: Int(data.controls[zoneID].level))
                 })
                 .padding(.top, 50)
@@ -82,11 +83,12 @@ struct ControlView: View {
             .padding(.bottom, 50)
             .disabled(!data.controls[zoneID].powerOn)
             .onChange(of: data.controls[zoneID].sourceInput, perform: { value in
+                print("source is: \(value)" )
                 translate.source(zoneID: zoneID, input: data.controls[zoneID].sourceInput)
             })
-        }.onAppear {
+        } .onAppear {
             // Upon this view being loaded, query of the state of AVR
-            translate.power(zoneID: zoneID)
+            translate.queryState(zoneID: zoneID)
         }
         .padding(.all, 25)
         .background(Color.backgroundColor)

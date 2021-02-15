@@ -15,7 +15,7 @@ struct SettingsView: View {
     @State private var standbyOn: Bool = false
 
     @State private var ipAddress: String = ""
-    @State private var isIPvalid: Bool = true
+    @State private var isIPvalid: Bool = false
     @State private var avrCommand: String = ""
     
     
@@ -42,8 +42,7 @@ struct SettingsView: View {
                 
                 Button(action: {
                     if (!data.isConnected) {
-//                        isConnected = network.open(host: ipAddress, port: 23)
-                        data.isConnected = network.open(host: "0.0.0.0", port: 8000)
+                        data.isConnected = network.open(host: ipAddress, port: 23)
                     } else {
                         network.close()
                         data.isConnected.toggle()
@@ -66,7 +65,7 @@ struct SettingsView: View {
             
             VStack () {
                 Text("Network Address")
-                TextField("192.168.33.1", text: $ipAddress)
+                TextField("192.168.198.132", text: $ipAddress)
                 .padding(.horizontal, 50)
                 .multilineTextAlignment(.center)
                 .disableAutocorrection(true)

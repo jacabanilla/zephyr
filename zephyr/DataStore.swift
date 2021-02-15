@@ -24,18 +24,19 @@ struct ControlData: Identifiable {
     var id = UUID()
     var powerOn: Bool
     var speakersLive: Bool
-    var level: CGFloat
+    var level: Float
     var sourceInput: SourceInput
 }
 
 let controlData = [
-    ControlData(powerOn: false, speakersLive: false, level: CGFloat(20.0), sourceInput: SourceInput.mediadevice),
-    ControlData(powerOn: false, speakersLive: false, level: CGFloat(20.0), sourceInput: SourceInput.mediadevice),
-    ControlData(powerOn: false, speakersLive: false, level: CGFloat(20.0), sourceInput: SourceInput.mediadevice),
-    ControlData(powerOn: false, speakersLive: false, level: CGFloat(20.0), sourceInput: SourceInput.mediadevice),
+    ControlData(powerOn: false, speakersLive: false, level: 10.0, sourceInput: SourceInput.mediadevice),
+    ControlData(powerOn: false, speakersLive: false, level: 10.0, sourceInput: SourceInput.mediadevice),
+    ControlData(powerOn: false, speakersLive: false, level: 10.0, sourceInput: SourceInput.mediadevice),
+    ControlData(powerOn: false, speakersLive: false, level: 10.0, sourceInput: SourceInput.mediadevice),
 ]
 
 class DataStore: ObservableObject {
     @Published var isConnected = false
+    @Published var mainPowerOn = false
     @Published var controls = controlData
 }
