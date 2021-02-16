@@ -12,13 +12,16 @@ struct ControlView: View {
     @State var zoneID: Int
     
     @EnvironmentObject var translate: Translate
-
+    private let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
 
     var body: some View {
         VStack () {
             HStack() {
                 Button(action: {
                     data.controls[zoneID].powerOn.toggle()
+                    if data.controls[zoneID].powerOn {
+                        translate.queryState(zoneID: zoneID)
+                    }
                     translate.power(zoneID: zoneID, power: data.controls[zoneID].powerOn)
                 }) {
                     HStack {
@@ -89,7 +92,10 @@ struct ControlView: View {
         } .onAppear {
             // Upon this view being loaded, query of the state of AVR
             translate.queryState(zoneID: zoneID)
-        }
+        } .onReceive(timer, perform: { _ in
+            // Periodically check to see if a change has been made from the panel or remote
+            translate.queryState(zoneID: zoneID)
+        })
         .padding(.all, 25)
         .background(Color.backgroundColor)
         .edgesIgnoringSafeArea(.all)
