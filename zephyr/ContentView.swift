@@ -48,12 +48,13 @@ struct ContentView: View {
             }
             
         } .onAppear {
-            // Primary processing method for any observed changes to msg
+            // Primary processing method for any observed changes to msg (inbound)
             myRxSubscriber = network.$reply.sink(receiveValue: { reply in
                 print("received " + reply)
                 translate.parse(reply: reply, data: data)
             })
             
+            // Primary processing method for any requested changes to send (outbound)
             myTxSubscriber = translate.$request.sink(receiveValue: { request in
                 print("transmit " + request)
                 network.transmit(message: request)
