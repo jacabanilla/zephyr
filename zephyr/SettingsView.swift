@@ -31,11 +31,7 @@ struct SettingsView: View {
                         Image(systemName: "power")
                     }
                 }
-                .frame(width: 100, height: 50)
-                .foregroundColor(Color.white)
-                .background(standbyOn ? Color.onColor : Color.offColor)
-                .cornerRadius(15.0)
-                .padding(25)
+                .modifier(ButtonModifier(onState: standbyOn))
                 .disabled(!data.isConnected)
 
                 Spacer()
@@ -53,11 +49,7 @@ struct SettingsView: View {
                         Image(systemName: data.isConnected ? "icloud.fill" : "icloud.slash.fill")
                     }
                 }
-                .frame(width: 100, height: 50)
-                .foregroundColor(Color.white)
-                .background(data.isConnected ? Color.onColor : Color.offColor)
-                .cornerRadius(15.0)
-                .padding(25)
+                .modifier(ButtonModifier(onState: data.isConnected))
                 .disabled(!isIPvalid)
             }
             
@@ -66,15 +58,11 @@ struct SettingsView: View {
             VStack () {
                 Text("Network Address")
                 TextField("192.168.198.132", text: $ipAddress)
-                .padding(.horizontal, 50)
-                .multilineTextAlignment(.center)
-                .disableAutocorrection(true)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .foregroundColor(isIPvalid ? .offColor : .errorColor)
-                .disabled(data.isConnected)
-                .onChange(of: ipAddress) { newValue in
-                    isIPvalid = verifyWholeIP(test: ipAddress)
-                }
+                    .modifier(TextFieldModifier(colorState: isIPvalid))
+                    .disabled(data.isConnected)
+                    .onChange(of: ipAddress) { newValue in
+                        isIPvalid = verifyWholeIP(test: ipAddress)
+                    }
             }
             
             Spacer()
@@ -86,11 +74,8 @@ struct SettingsView: View {
                         print("issue command: " + avrCommand)
                         translate.generic(event: avrCommand)
                     }
-                    .padding(.horizontal, 50)
+                    .modifier(TextFieldModifier(colorState: true))
                     .padding(.bottom, 100)
-                    .multilineTextAlignment(.center)
-                    .disableAutocorrection(true)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
                     .disabled(!data.isConnected)
             }
         }

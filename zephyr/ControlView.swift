@@ -29,11 +29,7 @@ struct ControlView: View {
                         Image(systemName: "power")
                     }
                 }
-                .frame(width: 100, height: 50)
-                .foregroundColor(Color.white)
-                .background(data.controls[zoneID].powerOn ? Color.onColor : Color.offColor)
-                .cornerRadius(15.0)
-                .padding(25)
+                .modifier(ButtonModifier(onState: data.controls[zoneID].powerOn))
                 .disabled(!data.isConnected)
 
                 Spacer()
@@ -47,11 +43,7 @@ struct ControlView: View {
                         Text("Audio")
                     }
                 }
-                .frame(width: 100, height: 50)
-                .foregroundColor(Color.white)
-                .background(data.controls[zoneID].speakersLive ? Color.onColor : Color.offColor)
-                .cornerRadius(15.0)
-                .padding(25)
+                .modifier(ButtonModifier(onState: data.controls[zoneID].speakersLive))
                 .disabled(!data.controls[zoneID].powerOn)
             }
             
