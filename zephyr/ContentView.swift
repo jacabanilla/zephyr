@@ -8,6 +8,7 @@
 import SwiftUI
 import Combine
 
+// Main tab scene creating the data store and network management
 struct ContentView: View {
     @StateObject var data: DataStore = DataStore()
     @EnvironmentObject var network: NetworkStream

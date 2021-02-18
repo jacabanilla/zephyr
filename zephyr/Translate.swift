@@ -8,9 +8,22 @@
 import Foundation
 import CoreGraphics
 
+/*
+ Translation layer that converts the control states into a string suitable
+ for transmission to the AVR.  The strings are unique to Denon AVR-5805.
+ 
+ Any call into the class will construct and deposit the string into "request"
+ which is published to the application for network transmission.  The class
+ will also parse any "reply" from the AVR and set the UI state appropriately.
+ 
+ The protocol is a 2 or 4 character "command" followed by a parameter and a
+ carriage return "cr", e.g. "SIDVD\r".  In order to query the state of a control,
+ replace the parameter with the "query" character, e.g. "MU?\r"
+ */
 class Translate: ObservableObject {
     @Published var request = String()
     
+    // Command codes.
     private let mainPower = "PW"
     private let zoneOnCmd = ["ZM", "Z2", "Z3", "Z4"]
     private let zoneMute = "MU"
@@ -21,20 +34,25 @@ class Translate: ObservableObject {
     private let query = "?"
     private let cr = "\r"
     
+    // AVR response time in milliseconds
+    private let responseTime = 200
+    
     // Query current state of view
     func queryState(zoneID: Int) {
         if zoneID == 0 {
-            // zone 0 does not have a convenience command to receive all data
+            // zone 0 does not have a convenience command to receive all data, e.g. Z1?
+            // Add a small delay between calls to ensure that the receiver has time to reply
             power(zoneID: zoneID)
-            Thread.sleep(forTimeInterval: 0.01)
             
-            mute(zoneID: zoneID)
-            Thread.sleep(forTimeInterval: 0.01)
-
-            source(zoneID: zoneID)
-            Thread.sleep(forTimeInterval: 0.01)
-
-            volume(zoneID: zoneID)
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(responseTime)) {
+                self.mute(zoneID: zoneID)
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(2*responseTime)) {
+                self.source(zoneID: zoneID)
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(3*responseTime)) {
+                self.volume(zoneID: zoneID)
+            }
         }  else {
             request = zoneOnCmd[zoneID] + query + cr
         }

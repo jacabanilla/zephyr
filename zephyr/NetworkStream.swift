@@ -7,6 +7,7 @@
 
 import Foundation
 
+// event codes for the Stream Delegate
 public enum  StreamEvent {
     case openCompleted      // in, out
     case hasBytesAvailable  // in
@@ -15,6 +16,11 @@ public enum  StreamEvent {
     case endEncountered     // in, out
 }
 
+/*
+ Bi-directional stream interface that wraps the delegate and
+ publishes a reactive pattern to the applciation.  All replies
+ from the AVR will land in reply.
+*/
 class NetworkStream: NSObject, ObservableObject, StreamDelegate {
     @Published var reply = String()
 

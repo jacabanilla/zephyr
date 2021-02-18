@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Single view for any given AVR zone
 struct ControlView: View {
     @ObservedObject var data: DataStore
     @State var zoneID: Int
@@ -82,7 +83,7 @@ struct ControlView: View {
                 translate.source(zoneID: zoneID, input: data.controls[zoneID].sourceInput)
             })
         } .onAppear {
-            // Upon this view being loaded, query of the state of AVR
+            // When this view is loaded, query of the state of AVR and set the UI
             translate.queryState(zoneID: zoneID)
         } .onReceive(timer, perform: { _ in
             // Periodically check to see if a change has been made from the panel or remote

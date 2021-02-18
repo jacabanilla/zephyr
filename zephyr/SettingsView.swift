@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Primarily a connection configuration interface
 struct SettingsView: View {
     @ObservedObject var data: DataStore
     @EnvironmentObject var network: NetworkStream
@@ -84,6 +85,7 @@ struct SettingsView: View {
         .edgesIgnoringSafeArea(.all)
     }
 
+    // will verify that the ip address is valid as it is being typed
     func verifyWhileTyping(test: String) -> Bool {
         let pattern_1 = "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])[.]){0,3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])?$"
         let regexText_1 = NSPredicate(format: "SELF MATCHES %@", pattern_1)
@@ -91,6 +93,7 @@ struct SettingsView: View {
         return result_1
     }
 
+    // will verify the the ip is fully constructed and proper
     func verifyWholeIP(test: String) -> Bool {
         let pattern_2 = "(25[0-5]|2[0-4]\\d|1\\d{2}|\\d{1,2})\\.(25[0-5]|2[0-4]\\d|1\\d{2}|\\d{1,2})\\.(25[0-5]|2[0-4]\\d|1\\d{2}|\\d{1,2})\\.(25[0-5]|2[0-4]\\d|1\\d{2}|\\d{1,2})"
         let regexText_2 = NSPredicate(format: "SELF MATCHES %@", pattern_2)

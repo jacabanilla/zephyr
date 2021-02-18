@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+/*
+ Visual control with gradient shading as the indicated
+ level continues to increase.
+*/
 struct RingView: View {
     var color1 = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
     var color2 = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1)

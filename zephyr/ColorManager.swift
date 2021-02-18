@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Custom color palette associated with colors in the asset catalog
 extension Color {
     static let backgroundColor = Color("backgroundColor")
     static let controlColor = Color("controlColor")
