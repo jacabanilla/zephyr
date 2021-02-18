@@ -22,7 +22,7 @@ public enum  StreamEvent {
  from the AVR will land in reply.
 */
 class NetworkStream: NSObject, ObservableObject, StreamDelegate {
-    @Published var reply = String()
+    @Published private(set) var reply = String()
 
     private var inStream: InputStream!
     private var outStream: OutputStream!
@@ -137,6 +137,6 @@ class NetworkStream: NSObject, ObservableObject, StreamDelegate {
         }
 
         // This is a small hack when using ncat followed by a clearing of the buffer
-        reply = msg.replacingOccurrences(of: "<user0> ", with: "")
+        reply = msg.replacingOccurrences(of: "<user0> ", with: "").replacingOccurrences(of: "\n", with: "")
     }
 }

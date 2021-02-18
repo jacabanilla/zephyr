@@ -21,7 +21,7 @@ import CoreGraphics
  replace the parameter with the "query" character, e.g. "MU?\r"
  */
 class Translate: ObservableObject {
-    @Published var request = String()
+    @Published private(set) var request = String()
     
     // Command codes.
     private let mainPower = "PW"
@@ -94,6 +94,8 @@ class Translate: ObservableObject {
             } else if let _ = zoneLevelCmd.firstIndex(of: cmd), let _ = Int(parameter) {
                 // if the level command can be found in teh list of level commands & the parameter is a number
                 data.controls[zoneID].level = (parameter as NSString).floatValue
+            } else {
+                print("Command Not Found")
             }
                 
             print("Parsed data for zone \(zoneID) "  + cmd + " " + parameter)

@@ -71,7 +71,7 @@ struct ControlView: View {
             
             Picker("Source", selection: $data.controls[zoneID].sourceInput) {
                 Text("DVD").tag(SourceInput.dvd)
-                Text("Media Device").tag(SourceInput.mediadevice)
+                Text("Media").tag(SourceInput.mediadevice)
                 Text("Tuner").tag(SourceInput.tuner)
             }
             .pickerStyle(SegmentedPickerStyle())
