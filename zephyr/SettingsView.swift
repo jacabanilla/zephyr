@@ -47,7 +47,7 @@ struct SettingsView: View {
                 }) {
                     HStack {
                         Text("TCP ")
-                        Image(systemName: data.isConnected ? "icloud.fill" : "icloud.slash.fill")
+                        Image(systemName: "icloud.fill")
                     }
                 }
                 .modifier(ButtonModifier(onState: data.isConnected))

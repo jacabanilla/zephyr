@@ -40,7 +40,7 @@ struct ControlView: View {
                     translate.mute(zoneID: zoneID, live: data.controls[zoneID].speakersLive)
                 }) {
                     HStack {
-                        Image(systemName: data.controls[zoneID].speakersLive ? "speaker" : "speaker.slash")
+                        Image(systemName: "speaker")
                         Text("Audio")
                     }
                 }
