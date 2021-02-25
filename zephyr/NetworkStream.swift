@@ -94,8 +94,13 @@ class NetworkStream: NSObject, ObservableObject, StreamDelegate {
     }
 
     func close() {
-        inStream.close()
-        outStream.close()
+        if let inStream = inStream, inStream.streamStatus == .open {
+            inStream.close()
+        }
+
+        if let outStream = outStream, outStream.streamStatus == .open {
+            outStream.close()
+        }
     }
     
     func transmit(message: String) {

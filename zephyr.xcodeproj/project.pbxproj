@@ -23,6 +23,7 @@
 		783EABFC25BFCD390018EF97 /* ControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783EABFB25BFCD390018EF97 /* ControlView.swift */; };
 		783EAC0425BFCD8C0018EF97 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783EAC0325BFCD8C0018EF97 /* SettingsView.swift */; };
 		78A2D64625E222E5001AA138 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 78A2D64525E222E5001AA138 /* README.md */; };
+		78A2D64B25E773A8001AA138 /* ControlButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A2D64A25E773A8001AA138 /* ControlButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 		783EABFB25BFCD390018EF97 /* ControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlView.swift; sourceTree = "<group>"; };
 		783EAC0325BFCD8C0018EF97 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		78A2D64525E222E5001AA138 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		78A2D64A25E773A8001AA138 /* ControlButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 				783EABA625B3E6110018EF97 /* zephyrApp.swift */,
 				780D092A25CBA71A00229681 /* ColorManager.swift */,
 				783EABA825B3E6110018EF97 /* ContentView.swift */,
+				78A2D64A25E773A8001AA138 /* ControlButton.swift */,
 				783EABFB25BFCD390018EF97 /* ControlView.swift */,
 				7809C38625D7771100299626 /* DataStore.swift */,
 				7809C39325DCD65200299626 /* Modifiers.swift */,
@@ -301,6 +304,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78A2D64B25E773A8001AA138 /* ControlButton.swift in Sources */,
 				780D093625CCF82100229681 /* Translate.swift in Sources */,
 				780D092B25CBA71A00229681 /* ColorManager.swift in Sources */,
 				783EABF425BFCA170018EF97 /* RingView.swift in Sources */,

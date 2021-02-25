@@ -23,35 +23,26 @@ struct SettingsView: View {
     var body: some View {
         VStack {
             HStack () {
-                Button(action: {
-                    standbyOn.toggle()
-                    translate.standby(masterOn: standbyOn)
-                }) {
-                    HStack {
-                        Text("Power")
-                        Image(systemName: "power")
-                    }
-                }
-                .modifier(ButtonModifier(onState: standbyOn))
-                .disabled(!data.isConnected)
+                ControlButton(onState: $standbyOn, text: "Power", image: "power")
+                    .onChange(of: standbyOn, perform: { value in
+                        translate.standby(masterOn: standbyOn)
+                    })
+                    .modifier(ButtonModifier(onState: standbyOn))
+                    .disabled(!data.isConnected)
 
                 Spacer()
                 
-                Button(action: {
-                    if (!data.isConnected) {
-                        data.isConnected = network.open(host: ipAddress, port: 23)
-                    } else {
-                        network.close()
-                        data.isConnected.toggle()
-                    }
-                }) {
-                    HStack {
-                        Text("TCP ")
-                        Image(systemName: "icloud.fill")
-                    }
-                }
-                .modifier(ButtonModifier(onState: data.isConnected))
-                .disabled(!isIPvalid)
+                ControlButton(onState: $data.isConnected, text: "TCP", image: "icloud.fill")
+                    .onChange(of: data.isConnected, perform: { value in
+                        if (!data.isConnected) {
+                            data.isConnected = network.open(host: ipAddress, port: 23)
+                        } else {
+                            network.close()
+                            data.isConnected.toggle()
+                        }
+                    })
+                    .modifier(ButtonModifier(onState: data.isConnected))
+                    .disabled(!isIPvalid)
             }
             
             Spacer()

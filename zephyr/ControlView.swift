@@ -13,39 +13,31 @@ struct ControlView: View {
     @State var zoneID: Int
     
     @EnvironmentObject var translate: Translate
-    private let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
+    private let timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
 
     var body: some View {
         VStack () {
             HStack() {
-                Button(action: {
-                    data.controls[zoneID].powerOn.toggle()
-                    if data.controls[zoneID].powerOn {
-                        translate.queryState(zoneID: zoneID)
-                    }
-                    translate.power(zoneID: zoneID, power: data.controls[zoneID].powerOn)
-                }) {
-                    HStack {
-                        Text("Power")
-                        Image(systemName: "power")
-                    }
-                }
-                .modifier(ButtonModifier(onState: data.controls[zoneID].powerOn))
-                .disabled(!data.isConnected)
+                ControlButton(onState: $data.controls[zoneID].powerOn, text: "Power", image: "power")
+                    .onChange(of: data.controls[zoneID].powerOn, perform: { value in
+                        translate.power(zoneID: zoneID, power: data.controls[zoneID].powerOn)
+                        if data.controls[zoneID].powerOn {
+                            translate.queryState(zoneID: zoneID)
+                        } else {
+                            data.controls[zoneID].speakersLive = false
+                        }
+                    })
+                    .modifier(ButtonModifier(onState: data.controls[zoneID].powerOn))
+                    .disabled(!data.isConnected)
 
                 Spacer()
                 
-                Button(action: {
-                    data.controls[zoneID].speakersLive.toggle()
-                    translate.mute(zoneID: zoneID, live: data.controls[zoneID].speakersLive)
-                }) {
-                    HStack {
-                        Image(systemName: "speaker")
-                        Text("Audio")
-                    }
-                }
-                .modifier(ButtonModifier(onState: data.controls[zoneID].speakersLive))
-                .disabled(!data.controls[zoneID].powerOn)
+                ControlButton(onState: $data.controls[zoneID].powerOn, text: "Audio", image: "speaker.fill")
+                    .onChange(of: data.controls[zoneID].speakersLive, perform: { value in
+                        translate.mute(zoneID: zoneID, live: data.controls[zoneID].speakersLive)
+                    })
+                    .modifier(ButtonModifier(onState: data.controls[zoneID].speakersLive))
+                    .disabled(!data.controls[zoneID].powerOn)
             }
             
             Spacer()
