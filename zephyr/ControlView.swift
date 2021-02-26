@@ -81,9 +81,7 @@ struct ControlView: View {
             // Periodically check to see if a change has been made from the panel or remote
             translate.queryState(zoneID: zoneID)
         })
-        .padding(.all, 25)
-        .background(Color.backgroundColor)
-        .edgesIgnoringSafeArea(.all)
+        .modifier(SceneModifier())
     }
 }
 

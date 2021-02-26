@@ -19,7 +19,6 @@ struct SettingsView: View {
     @State private var isIPvalid: Bool = false
     @State private var avrCommand: String = ""
     
-    
     var body: some View {
         VStack {
             HStack {
@@ -71,9 +70,7 @@ struct SettingsView: View {
                     .disabled(!data.isConnected)
             }
         }
-        .padding(.all, 25)
-        .background(Color.backgroundColor)
-        .edgesIgnoringSafeArea(.all)
+        .modifier(SceneModifier())
     }
 
     // will verify that the ip address is valid as it is being typed
@@ -92,8 +89,6 @@ struct SettingsView: View {
         return result_2
     }
 }
-
-
 
 struct SettingsViewView_Previews: PreviewProvider {
     static var previews: some View {

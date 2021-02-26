@@ -32,3 +32,13 @@ struct TextFieldModifier: ViewModifier {
             .foregroundColor(colorState ? Color.offColor : Color.errorColor)
     }
 }
+
+struct SceneModifier: ViewModifier {
+    
+    func body(content: Content) -> some View {
+        content
+            .padding(.all, 25)
+            .background(Color.backgroundColor)
+            .edgesIgnoringSafeArea(.all)
+    }
+}
