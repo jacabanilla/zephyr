@@ -16,8 +16,8 @@ struct ControlView: View {
     private let timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
 
     var body: some View {
-        VStack () {
-            HStack() {
+        VStack {
+            HStack {
                 ControlButton(onState: $data.controls[zoneID].powerOn, text: "Power", image: "power")
                     .onChange(of: data.controls[zoneID].powerOn, perform: { value in
                         translate.power(zoneID: zoneID, power: data.controls[zoneID].powerOn)

@@ -22,7 +22,7 @@ struct SettingsView: View {
     
     var body: some View {
         VStack {
-            HStack () {
+            HStack {
                 ControlButton(onState: $standbyOn, text: "Power", image: "power")
                     .onChange(of: standbyOn, perform: { value in
                         translate.standby(masterOn: standbyOn)
@@ -47,7 +47,7 @@ struct SettingsView: View {
             
             Spacer()
             
-            VStack () {
+            VStack {
                 Text("Network Address")
                 TextField("192.168.198.132", text: $ipAddress)
                     .modifier(TextFieldModifier(colorState: isIPvalid))
@@ -59,7 +59,7 @@ struct SettingsView: View {
             
             Spacer()
             
-            VStack () {
+            VStack {
                 Text("Issue Command")
                 TextField("MUON", text: $avrCommand) { isEditing in
                     } onCommit: {

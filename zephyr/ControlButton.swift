@@ -13,7 +13,7 @@ struct ControlButton: View {
     var image: String = ""
     
     var body: some View {
-        HStack() {
+        HStack {
             Button(action: {
                 onState.toggle()
             }) {
