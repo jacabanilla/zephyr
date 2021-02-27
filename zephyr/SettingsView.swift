@@ -23,25 +23,26 @@ struct SettingsView: View {
         VStack {
             HStack {
                 ControlButton(onState: $standbyOn, text: "Power", image: "power")
+                    .modifier(ButtonModifier(onState: standbyOn))
+                    .disabled(!data.isConnected)
                     .onChange(of: standbyOn, perform: { value in
                         translate.standby(masterOn: standbyOn)
                     })
-                    .modifier(ButtonModifier(onState: standbyOn))
-                    .disabled(!data.isConnected)
 
                 Spacer()
                 
                 ControlButton(onState: $data.isConnected, text: "TCP", image: "icloud.fill")
-                    .onChange(of: data.isConnected, perform: { value in
-                        if (!data.isConnected) {
-                            data.isConnected = network.open(host: ipAddress, port: 23)
-                        } else {
-                            network.close()
-                            data.isConnected.toggle()
-                        }
-                    })
                     .modifier(ButtonModifier(onState: data.isConnected))
                     .disabled(!isIPvalid)
+                    .onChange(of: data.isConnected, perform: { value in
+                        if (data.isConnected) {
+                            if (network.open(host: ipAddress, port: 23) == false) {
+                                data.isConnected = false
+                            }
+                        } else {
+                            network.close()
+                        }
+                    })
             }
             
             Spacer()

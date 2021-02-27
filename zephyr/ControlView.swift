@@ -19,6 +19,8 @@ struct ControlView: View {
         VStack {
             HStack {
                 ControlButton(onState: $data.controls[zoneID].powerOn, text: "Power", image: "power")
+                    .modifier(ButtonModifier(onState: data.controls[zoneID].powerOn))
+                    .disabled(!data.isConnected)
                     .onChange(of: data.controls[zoneID].powerOn, perform: { value in
                         translate.power(zoneID: zoneID, power: data.controls[zoneID].powerOn)
                         if data.controls[zoneID].powerOn {
@@ -27,17 +29,15 @@ struct ControlView: View {
                             data.controls[zoneID].speakersLive = false
                         }
                     })
-                    .modifier(ButtonModifier(onState: data.controls[zoneID].powerOn))
-                    .disabled(!data.isConnected)
 
                 Spacer()
                 
                 ControlButton(onState: $data.controls[zoneID].powerOn, text: "Audio", image: "speaker.fill")
+                    .modifier(ButtonModifier(onState: data.controls[zoneID].speakersLive))
+                    .disabled(!data.controls[zoneID].powerOn)
                     .onChange(of: data.controls[zoneID].speakersLive, perform: { value in
                         translate.mute(zoneID: zoneID, live: data.controls[zoneID].speakersLive)
                     })
-                    .modifier(ButtonModifier(onState: data.controls[zoneID].speakersLive))
-                    .disabled(!data.controls[zoneID].powerOn)
             }
             
             Spacer()

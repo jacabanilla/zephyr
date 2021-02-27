@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 enum SourceInput: String, CaseIterable, Identifiable, Equatable {
     case dvd = "DVD"
@@ -39,4 +40,7 @@ class DataStore: ObservableObject {
     @Published var isConnected = false
     @Published var mainPowerOn = false
     @Published var controls = controlData
+    
+    var myTxSubscriber: AnyCancellable?
+    var myRxSubscriber: AnyCancellable?
 }
