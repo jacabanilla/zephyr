@@ -25,3 +25,9 @@ struct ControlButton: View {
         }
     }
 }
+
+struct ControlButton_Previews: PreviewProvider {
+    static var previews: some View {
+        ControlButton(onState: .constant(true), text: "Power", image: "power")
+    }
+}

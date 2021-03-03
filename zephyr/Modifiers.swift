@@ -25,11 +25,11 @@ struct TextFieldModifier: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .padding(.horizontal, 50)
+            .padding(.horizontal, 75)
             .multilineTextAlignment(.center)
             .disableAutocorrection(true)
+            .foregroundColor(colorState ? Color.textColor : Color.errorColor)
             .textFieldStyle(RoundedBorderTextFieldStyle())
-            .foregroundColor(colorState ? Color.offColor : Color.errorColor)
     }
 }
 

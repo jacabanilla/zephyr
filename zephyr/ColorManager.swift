@@ -14,5 +14,6 @@ extension Color {
     static let errorColor = Color("errorColor")
     static let offColor = Color("offColor")
     static let onColor = Color("onColor")
+    static let textColor = Color("textColor")
     static let launchColor = Color("launchScreenColor")
 }

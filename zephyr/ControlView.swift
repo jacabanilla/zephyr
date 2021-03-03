@@ -7,6 +7,13 @@
 
 import SwiftUI
 
+extension View {
+    func hideKeyboard() {
+        let resign = #selector(UIResponder.resignFirstResponder)
+        UIApplication.shared.sendAction(resign, to: nil, from: nil, for: nil)
+    }
+}
+
 // Single view for any given AVR zone
 struct ControlView: View {
     @ObservedObject var data: DataStore
@@ -14,6 +21,10 @@ struct ControlView: View {
     
     @EnvironmentObject var translate: Translate
     private let timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
+    
+    @State private var tunerModalDisplayed = false
+    @State private var isFrequencyValid: Bool = false
+    @State private var station = ""
 
     var body: some View {
         VStack {
@@ -40,6 +51,21 @@ struct ControlView: View {
                     })
             }
             
+            Spacer()
+            
+            GroupBox(label: Label("Tuner", systemImage: "radio").foregroundColor(Color.backgroundColor)) {
+                TextField("101.1", text: $station)
+                    .keyboardType(.numbersAndPunctuation)
+                    .modifier(TextFieldModifier(colorState: isFrequencyValid))
+                    .disabled(!data.controls[zoneID].powerOn || data.controls[zoneID].sourceInput != .tuner)
+                    .onChange(of: station) { newValue in
+                        isFrequencyValid = validateFrequency(test: newValue)
+                        if (isFrequencyValid) {
+                            hideKeyboard()
+                        }
+                    }
+            }
+
             Spacer()
                                     
             RingView(color1: UIColor(Color.controlColor),
@@ -82,6 +108,18 @@ struct ControlView: View {
             translate.queryState(zoneID: zoneID)
         })
         .modifier(SceneModifier())
+    }
+    
+    func validateFrequency(test: String) -> Bool {
+        let am_pattern = "^([5-9][3-9][0]|1[0-6][0-9][0]|1700)$"
+        let regexText_am = NSPredicate(format: "SELF MATCHES %@", am_pattern)
+        let result_am = regexText_am.evaluate(with: test)
+
+        let fm_pattern = "^(87.9|8[8-9].[13579]|9[0-9].[13579]|10[0-7].[13579]|1700)$"
+        let regexText_fm = NSPredicate(format: "SELF MATCHES %@", fm_pattern)
+        let result_fm = regexText_fm.evaluate(with: test)
+
+        return result_am || result_fm
     }
 }
 
