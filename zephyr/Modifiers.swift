@@ -25,7 +25,6 @@ struct TextFieldModifier: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .padding(.horizontal, 75)
             .multilineTextAlignment(.center)
             .disableAutocorrection(true)
             .foregroundColor(colorState ? Color.textColor : Color.errorColor)

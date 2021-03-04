@@ -39,6 +39,7 @@ let controlData = [
 class DataStore: ObservableObject {
     @Published var isConnected = false
     @Published var mainPowerOn = false
+    @Published var tunerFrequncy = "101.1"
     @Published var controls = controlData
     
     var myTxSubscriber: AnyCancellable?

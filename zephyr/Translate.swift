@@ -30,6 +30,7 @@ class Translate: ObservableObject {
     private let zoneLevelCmd = ["MV", "Z2", "Z3", "Z4"]
     private let zoneSourceCmd = ["SI", "Z2", "Z3", "Z4"]
     private let sourceParameter = ["DVD", "TUNER", "TV"]
+    private let tunerFrequency = "TF"
 
     private let query = "?"
     private let cr = "\r"
@@ -39,22 +40,31 @@ class Translate: ObservableObject {
     
     // Query current state of view
     func queryState(zoneID: Int) {
+        var dT = responseTime
         if zoneID == 0 {
             // zone 0 does not have a convenience command to receive all data, e.g. Z1?
             // Add a small delay between calls to ensure that the receiver has time to reply
             power(zoneID: zoneID)
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(responseTime)) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(dT)) {
                 self.mute(zoneID: zoneID)
+                dT += dT
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(2*responseTime)) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(dT)) {
                 self.source(zoneID: zoneID)
+                dT += dT
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(3*responseTime)) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(dT)) {
                 self.volume(zoneID: zoneID)
+                dT += dT
             }
         }  else {
             request = zoneOnCmd[zoneID] + query + cr
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(dT)) {
+            self.tunerDirectDial()
+            dT += dT
         }
     }
     
@@ -92,8 +102,13 @@ class Translate: ObservableObject {
                 // if the parameter can be found in the list of source inputs
                 data.controls[zoneID].sourceInput = SourceInput(rawValue: String(parameter)) ?? SourceInput.mediadevice
             } else if let _ = zoneLevelCmd.firstIndex(of: cmd), let _ = Int(parameter) {
-                // if the level command can be found in teh list of level commands & the parameter is a number
+                // if the level command can be found in the list of level commands & the parameter is a number
                 data.controls[zoneID].level = (parameter as NSString).floatValue
+            } else if cmd == tunerFrequency {
+                // if the tuner command can be found in the list
+                let am = String(parameter.prefix(4))
+                let fm = String(parameter.dropFirst().prefix(3) + "." + parameter.dropFirst(4).dropLast())
+                data.tunerFrequncy = (parameter > "050000") ? am : fm
             } else {
                 print("Command Not Found")
             }
@@ -167,5 +182,55 @@ class Translate: ObservableObject {
         } else {
             request = command + query + cr
         }
+    }
+    
+    func tunerDirectDial(frequency: String? = nil)
+    {
+        let command = tunerFrequency
+                
+        if let frequency = frequency {
+            if (frequency > "050000") {
+                request = "TMAM"
+            } else {
+                request = "TMFM"
+            }
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(responseTime)) {
+                let code = frequency.replacingOccurrences(of: ".", with: "") + "00"
+                self.request = self.tunerFrequency + code + self.cr
+            }
+        } else {
+            request = command + query + cr
+        }
+        
+    }
+    
+    func tunerChangeUp(scan: Bool) {
+        let cmd = "TM"
+        let code = scan ? "AUTO" : "MANUAL"
+        
+        request = cmd + code + cr
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(responseTime)) {
+            self.request = self.tunerFrequency + "UP" + self.cr
+        }
+    }
+    
+    func tunerChangeDown(scan: Bool) {
+        let cmd = "TM"
+        let code = scan ? "AUTO" : "MANUAL"
+        
+        request = cmd + code + cr
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(responseTime)) {
+            self.request = self.tunerFrequency + "DOWN" + self.cr
+        }
+    }
+    
+    func tunerPreset(preset: Int) {
+        let command = "TP"
+        let code = "A" + String(preset)
+        
+        request = command + code + cr
     }
 }

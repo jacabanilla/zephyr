@@ -22,9 +22,7 @@ struct ControlView: View {
     @EnvironmentObject var translate: Translate
     private let timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
     
-    @State private var tunerModalDisplayed = false
     @State private var isFrequencyValid: Bool = false
-    @State private var station = ""
 
     var body: some View {
         VStack {
@@ -54,17 +52,55 @@ struct ControlView: View {
             Spacer()
             
             GroupBox(label: Label("Tuner", systemImage: "radio").foregroundColor(Color.backgroundColor)) {
-                TextField("101.1", text: $station)
-                    .keyboardType(.numbersAndPunctuation)
-                    .modifier(TextFieldModifier(colorState: isFrequencyValid))
-                    .disabled(!data.controls[zoneID].powerOn || data.controls[zoneID].sourceInput != .tuner)
-                    .onChange(of: station) { newValue in
-                        isFrequencyValid = validateFrequency(test: newValue)
-                        if (isFrequencyValid) {
-                            hideKeyboard()
-                        }
+                VStack {
+                    HStack {
+                        Button(action: { translate.tunerChangeDown(scan: false) },
+                               label: { Image(systemName: "backward.end.alt").font(.system(size: 24)) }
+                        )
+
+                        Button(action: { translate.tunerChangeDown(scan: true) },
+                               label: { Image(systemName: "backward").font(.system(size: 24)) }
+                        )
+                            
+                        TextField("101.1", text: $data.tunerFrequncy)
+                            .keyboardType(.numbersAndPunctuation)
+                            .modifier(TextFieldModifier(colorState: isFrequencyValid))
+                            .onChange(of: data.tunerFrequncy) { newValue in
+                                isFrequencyValid = validateFrequency(test: newValue)
+                                if (isFrequencyValid) {
+                                    hideKeyboard()
+                                    translate.tunerDirectDial(frequency: data.tunerFrequncy)
+                                }
+                            }
+                        
+                        Button(action: { translate.tunerChangeUp(scan: true) },
+                               label: { Image(systemName: "forward").font(.system(size: 24)) }
+                        )
+
+                        Button(action: { translate.tunerChangeUp(scan: false) },
+                               label: { Image(systemName: "forward.end.alt").font(.system(size: 24)) }
+                        )
                     }
+                    HStack {
+                        Button(action: { translate.tunerPreset(preset: 1) },
+                               label: { Image(systemName: "1.circle").font(.system(size: 24)) }
+                        )
+                        .padding(.horizontal, 20)
+                        
+                        Button(action: { translate.tunerPreset(preset: 2) },
+                               label: { Image(systemName: "2.square").font(.system(size: 24)) }
+                        )
+                        .padding(.horizontal, 20)
+
+                        Button(action: { translate.tunerPreset(preset: 3) },
+                               label: { Image(systemName: "3.circle").font(.system(size: 24)) }
+                        )
+                        .padding(.horizontal, 20)
+                    }
+                }
             }
+            .accentColor(Color.onColor)
+            .disabled(!data.controls[zoneID].powerOn || data.controls[zoneID].sourceInput != .tuner)
 
             Spacer()
                                     

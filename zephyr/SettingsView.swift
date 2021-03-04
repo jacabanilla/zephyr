@@ -51,14 +51,15 @@ struct SettingsView: View {
                 Text("Network Address")
                 TextField("192.168.198.132", text: $ipAddress)
                     .modifier(TextFieldModifier(colorState: isIPvalid))
+                    .padding(.horizontal, 50)
                     .disabled(data.isConnected)
                     .onChange(of: ipAddress) { newValue in
                         isIPvalid = verifyWholeIP(test: ipAddress)
                     }
             }
             
-            Spacer()
-            
+            Spacer().frame(height: 100)
+                        
             VStack {
                 Text("Issue Command")
                 TextField("MUON", text: $avrCommand) { isEditing in
@@ -67,9 +68,12 @@ struct SettingsView: View {
                         translate.generic(event: avrCommand)
                     }
                     .modifier(TextFieldModifier(colorState: true))
-                    .padding(.bottom, 100)
+                    .padding(.horizontal, 50)
                     .disabled(!data.isConnected)
             }
+
+            Spacer()
+
         }
         .modifier(SceneModifier())
     }
