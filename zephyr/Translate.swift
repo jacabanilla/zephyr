@@ -5,8 +5,7 @@
 //  Created by Jorge Alexander Cabanilla on 2/4/21.
 //
 
-import Foundation
-import CoreGraphics
+import SwiftUI
 
 /*
  Translation layer that converts the control states into a string suitable

@@ -14,10 +14,10 @@ Project is created with:
 * Combine
 
 ## Next Updates
-* Include an option to tune the fm receiver
-* Introduce a number of channel presets
+* ~Include an option to tune the fm receiver~
+* ~Introduce a number of channel presets~
+* ~Sync the UI from control changes on the panel~
 * Create an ip address scanner to automatically find the AVR
-* Sync the UI from control changes on the panel
 
 ## Application
 To engage the ARV, launch the application, input the IP address of the unit, and establish a connection.  The AVR is multi-zoned with independent controls for each.

@@ -5,7 +5,7 @@
 //  Created by Jorge Alexander Cabanilla on 1/25/21.
 //
 
-import Foundation
+import SwiftUI
 
 // event codes for the Stream Delegate
 public enum  StreamEvent {
