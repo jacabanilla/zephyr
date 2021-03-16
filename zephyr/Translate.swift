@@ -105,7 +105,7 @@ class Translate: ObservableObject {
                 data.controls[zoneID].level = (parameter as NSString).floatValue
             } else if cmd == tunerFrequency {
                 // if the tuner command can be found in the list
-                let am = String(parameter.prefix(4))
+                let am = (parameter.prefix(1) == "0") ? String(parameter.dropFirst().prefix(3)) : String(parameter.prefix(4))
                 let fm = String(parameter.dropFirst().prefix(3) + "." + parameter.dropFirst(4).dropLast())
                 data.tunerFrequncy = (parameter > "050000") ? am : fm
             } else {

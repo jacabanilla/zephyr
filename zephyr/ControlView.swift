@@ -41,7 +41,7 @@ struct ControlView: View {
 
                 Spacer()
                 
-                ControlButton(onState: $data.controls[zoneID].powerOn, text: "Audio", image: "speaker.fill")
+                ControlButton(onState: $data.controls[zoneID].speakersLive, text: "Audio", image: "speaker.fill")
                     .modifier(ButtonModifier(onState: data.controls[zoneID].speakersLive))
                     .disabled(!data.controls[zoneID].powerOn)
                     .onChange(of: data.controls[zoneID].speakersLive, perform: { value in
